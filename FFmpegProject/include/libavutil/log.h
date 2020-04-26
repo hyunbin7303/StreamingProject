@@ -230,9 +230,7 @@ typedef struct AVClass {
  *        lavu_log_constants "Logging Constant".
  * @param fmt The format string (printf-compatible) that specifies how
  *        subsequent arguments are converted to output.
- */
-void av_log(void *avcl, int level, const char *fmt, ...) av_printf_format(3, 4);
-
+ 
 
 /**
  * Send the specified message to the log if the level is less than or equal

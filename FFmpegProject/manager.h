@@ -8,6 +8,9 @@ extern "C"
 {
 #include <libavformat/avformat.h>
 #include <libavutil/dict.h>
+#include <libavcodec\avcodec.h>
+
+
 }
 #pragma warning(disable : 4996)
 class Manager
@@ -17,6 +20,7 @@ public:
 
 	int testing2(const char* fileName);
 
+	int LoadVideoStream();
 
 
 };
