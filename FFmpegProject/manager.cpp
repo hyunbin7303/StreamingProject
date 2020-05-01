@@ -79,36 +79,93 @@ end:
 int Manager::LoadVideoStream()
 {
 	// Create a muxer that will output the video as MP4.
-	Muxer* muxer = new Muxer("filtered_video.mp4");
+	//Muxer* muxer = new Muxer("filtered_video.mp4");
 
-	// Create a MPEG2 codec that will encode the raw data.
-	VideoCodec* codec = new VideoCodec(AV_CODEC_ID_MPEG2VIDEO);
+	//// Create a MPEG2 codec that will encode the raw data.
+	//VideoCodec* codec = new VideoCodec(AV_CODEC_ID_MPEG2VIDEO);
 
-	// Create an encoder that will encode the raw audio data using the codec specified above.
-	// Tie it to the muxer so it will be written to file.
-	VideoEncoder* encoder = new VideoEncoder(codec, muxer);
+	//// Create an encoder that will encode the raw audio data using the codec specified above.
+	//// Tie it to the muxer so it will be written to file.
+	//VideoEncoder* encoder = new VideoEncoder(codec, muxer);
 
-	// Create a video filter and do some funny stuff with the video data.
-	Filter* filter = new Filter("scale=640:150,transpose=cclock,vignette", encoder);
+	//// Create a video filter and do some funny stuff with the video data.
+	//Filter* filter = new Filter("scale=640:150,transpose=cclock,vignette", encoder);
 
-	// Load a container. Pick the best video stream container in the container
-	// And send it to the filter.
-	Demuxer* demuxer = new Demuxer("big_buck_bunny.mp4");
-	demuxer->DecodeBestVideoStream(filter);
+	//// Load a container. Pick the best video stream container in the container
+	//// And send it to the filter.
+	//Demuxer* demuxer = new Demuxer("big_buck_bunny.mp4");
+	//demuxer->DecodeBestVideoStream(filter);
 
-	// Prepare the output pipeline.
-	// This will decode a small amount of frames so the pipeline can configure itself.
-	demuxer->PreparePipeline();
+	//// Prepare the output pipeline.
+	//// This will decode a small amount of frames so the pipeline can configure itself.
+	//demuxer->PreparePipeline();
 
-	// Push all the remaining frames through.
-	while (!demuxer->IsDone())
-	{
-		demuxer->Step();
-	}
+	//// Push all the remaining frames through.
+	//while (!demuxer->IsDone())
+	//{
+	//	demuxer->Step();
+	//}
 
-	// Save everything to disk by closing the muxer.
-	muxer->Close();
+	//// Save everything to disk by closing the muxer.
+	//muxer->Close();
 
 
 	return 0;
 }
+
+void Manager::pgm_save(unsigned char* buf, int wrap, int xsize, int ysize, const char* filename)
+{
+	FILE* f;
+	int i;
+	f = fopen(filename, "w");
+	fprintf(f, "P5\n%d %d\n", xsize, xsize, 255);
+	for (i = 0; i < ysize; i++)
+	{
+		fwrite(buf + i * wrap, 1, xsize, f);
+	}
+	fclose(f);
+}
+
+void Manager::decoding(AVCodecContext* dec_ctx, AVFrame* frame, AVPacket* pkt, const char* fileName)
+{
+	char buf[1024];
+	int ret;
+
+	ret = avcodec_send_packet(dec_ctx, pkt);
+	if (ret < 0)
+	{
+		fprintf(stderr, "Error sending a packet for decoding \n");
+		exit(1);
+	}
+	while (ret >= 0)
+	{
+		ret = avcodec_receive_frame(dec_ctx, frame);
+		if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
+		{
+			return;
+		}
+		else if (ret < 0)
+		{
+			fprintf(stderr, "ERROR DURING DECODING \n");
+			exit(1);
+		}
+		printf("SAVING frame %3d\n", dec_ctx->frame_number);
+		fflush(stdout);
+
+		snprintf(buf, sizeof(buf), "%s-%d", fileName, dec_ctx->frame_number);
+		pgm_save(frame->data[0], frame->linesize[0], frame->width, frame->height, buf);
+	}
+}
+
+void Manager::testDecoding()
+{
+	const AVCodec* codec;
+	AVCodecParserContext* parser;
+
+
+}
+
+
+
+
+
