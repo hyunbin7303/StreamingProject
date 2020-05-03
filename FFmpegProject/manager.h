@@ -17,17 +17,29 @@ extern "C"
 #define INBUF_SIZE 4096
 
 #pragma warning(disable : 4996)
-class Manager
+
+
+namespace FFmpeg
 {
-public:
-	int testing();
+	class Manager
+	{
+	public:
+		int testing();
 
-	int testing2(const char* fileName);
+		int testing2(const char* fileName);
 
-	int LoadVideoStream();
-	void pgm_save(unsigned char* buf, int wrap, int xsize, int ysize, const char* filename);
+		int LoadVideoStream();
+		void pgm_save(unsigned char* buf, int wrap, int xsize, int ysize, const char* filename);
+		void decoding(AVCodecContext* dec_ctx, AVFrame* frame, AVPacket* pkt, const char* fileName);
+		int readFrame(AVPacket* packet);
+		uint8_t streamsCount();
+		
+		
+		void testDecoding(const char* fileName);
 
 
-};
+	};
+
+}
 
 #endif // !_MANAGER_H_

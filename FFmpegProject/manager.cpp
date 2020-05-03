@@ -1,6 +1,6 @@
 
 #include "manager.h"
-
+using namespace FFmpeg;
 
 int Manager::testing() {
 	printf("Testing method\n");
@@ -157,10 +157,49 @@ void Manager::decoding(AVCodecContext* dec_ctx, AVFrame* frame, AVPacket* pkt, c
 	}
 }
 
-void Manager::testDecoding()
+
+
+// constant rate Factor(CRF)
+// Use this rate control mode if I want to keep the best quality and care less about file size.
+// Range of the CRF scale is 0-51, 
+// a lower value generally 
+// Default : 23.
+// loseless : 0
+// Worst : 51 
+
+
+
+// MPEG Transpor stream
+// mpeg transport stream is a standard digital container format for transmission and storage of 
+// audio, video, and program and system information Protocol(PSIP).
+
+void Manager::testDecoding(const char * fileName)
 {
+
+	const char* outputFileName = NULL;
 	const AVCodec* codec;
 	AVCodecParserContext* parser;
+	AVCodecContext* context = NULL;
+	FILE* f;
+	AVFrame* frame;
+	uint8_t inBuf[INBUF_SIZE + AV_INPUT_BUFFER_PADDING_SIZE];
+	uint8_t* data;
+	size_t data_size;
+	int ret;
+	AVPacket* pkt;
+
+	pkt = av_packet_alloc();
+	if (!pkt){
+		exit(1);
+	}
+	
+	memset(inBuf + INBUF_SIZE, 0, AV_INPUT_BUFFER_PADDING_SIZE);
+
+	//MPEG-1 decoer
+
+
+
+	 
 
 
 }

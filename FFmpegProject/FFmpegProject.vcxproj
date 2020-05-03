@@ -150,10 +150,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FFmpegHead.cpp" />
+    <ClCompile Include="FileManagement.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FFmpegHead.h" />
+    <ClInclude Include="FileManagement.h" />
+    <ClInclude Include="FrameCheck.h" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="manager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
