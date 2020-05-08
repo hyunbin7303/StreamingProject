@@ -31,3 +31,35 @@ clean:
 	rm -f ./obj/*.o
 	rm -f ./src/*.c~
 	rm -f ./inc/*.h~
+
+
+##################3
+#declare the variable.
+CC=g++
+
+
+CFLAGS=-c -Wall
+
+
+all:UDPserver
+
+UDPserver: main.o server.o server2.o
+		$(CC) main.o server.o server2.o -o UDPserver
+
+
+main.o: main.cpp
+	$(CC) $(CFLAGS) main.cpp
+
+
+server.o: server.cpp
+	$(CC) $(CFLAGS) server.cpp
+
+
+
+server2.o: server2.cpp
+	$(CC) $(CFLAGS) server2.cpp
+
+
+
+clean:
+	rm -rf *o UDPserver
