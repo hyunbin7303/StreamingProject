@@ -1,21 +1,9 @@
-/*
-FILE			: iSpeedServer.c
-PROGRAMMER		: Kevin Park, Julio Rivas
-DATE			: 2019 - 1 - 21
-PROG			: IAD-A01
-DESCRIPTION		: this is the serverside c file in this program. It has TCP and UDP server side functionalities.
-*/
 
-#include "../inc/Common.h"
-#include "../inc/iSpeedServer.h"
+#include "../inc/server.hpp"
 
+// #include "../inc/iSpeedServer.h"
 int FirstTime = 0;	// Checking whether it is the first time execution.
-/*
-	METHOD	   : ServerStart()
-	PARAMETER  : argc - the number of argument. argv - argument string.
-	RETURN	   : Return error code depends on connection or methods.
-	DESCRIPTION: This method is used for setting up server for UDP and TCP in both linux and window.
-*/
+
 int ServerStart(int argc, char** argv)
 {
 	FirstTime = 0;// Meaning the first time.
@@ -25,22 +13,12 @@ int ServerStart(int argc, char** argv)
 	/*SET UP TCP FOR FIRST MESSAGE*/
 	int socket_type = SOCK_STREAM;	// Setting up Socket stream(TCP). Used for getting for input from client.
 	int fromlen = 0;
-#ifdef _WIN32
-	SOCKET listen_socket;		// Socket Initialization
-	SOCKET message_socket;		// Message Socket Initialization.
-    WSADATA wsaData;	// WinSock initialization data
-	 //initialize WinSock
-	if (WSAStartup(0x202, &wsaData) == SOCKET_ERROR) {
-		return 1;
-	}
-#else	// Linux Socket values initialization.
+
     int listen_socket = 0;
 	int client_len = 0;
 	int client_socket = 0;
-#endif // _WIN32
 	struct sockaddr_in local;	// Socket Address local set up
 	struct sockaddr_in from;	// Socket Address value set up
-
 	char serverIp[512];
 	int errorMsg = 0;
 	int CountUnordered = 0;
@@ -73,21 +51,12 @@ int ServerStart(int argc, char** argv)
 		return 3;
 	}
 
-// Litstening Checking.
-#ifdef _WIN32
-	if (listen(listen_socket, SOMAXCONN) < 0) {
-		printf("ERROR, failed to establish queue\n");
-		closesocket(listen_socket);
-		return 4;
-	}
-#else
 	if (listen(listen_socket, 5) < 0)
 	{
 		printf("[LINUX ERROR] Listen FAIL. \n");
 		close(listen_socket);
 		exit(3);
 	}
-#endif // __WIN32
 
 
 
@@ -96,11 +65,7 @@ int ServerStart(int argc, char** argv)
 	fromlen = sizeof(from);
 	if (FirstTime == 0)
 	{
-		// TCP CONNECTION CHECKING. if nothing accepted, it automatically passes it.
-#ifdef _WIN32
-		message_socket = accept(listen_socket, (struct sockaddr*)&from, &fromlen);
-		printf("ERROR MESSAGE NUM : [%d]\n", WSAGetLastError());
-#else
+
         client_len = sizeof(from);
 		if ((client_socket = accept(listen_socket, (struct sockaddr *)&from, &client_len)) < 0)	{
 			printf("[LINUX ERROR] Accept Fail. \n");
@@ -108,19 +73,7 @@ int ServerStart(int argc, char** argv)
 			exit(4);
 		}
 		printf("[LINUX] Accept Works.\n");
-#endif // _WIN32
 
-
-#ifdef _WIN32
-		// Receiving message from client.
-		int receivedNum = recv(message_socket, BlockSizeValueStr, sizeof(BlockSizeValueStr), 0);
-		printf("Received Message for setting up : %s \n", BlockSizeValueStr);
-		if (receivedNum < 0)
-		{
-			printf("FIRST MESSAGE RECEIVING FAIL. \n");
-			return FIRST_CONNECTION_FAIL;
-		}
-#else   // Linux part
 		// Posix read() api does not return a NULL terminated string which was stuffing garbage characters in the buffer.
 		int receivedNum = read(client_socket, BlockSizeValueStr,sizeof(BlockSizeValueStr));
 		printf("Rceveid Num : %d \n", receivedNum);
@@ -130,7 +83,6 @@ int ServerStart(int argc, char** argv)
 		}
 		//close(client_socket);
 		//exit(0);
-#endif
 		// getting the first data input from client side and store it.
 		if (FirstDataParse(BlockSizeValueStr) == -1)
 		{
