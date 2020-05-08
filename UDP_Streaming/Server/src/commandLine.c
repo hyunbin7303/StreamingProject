@@ -5,8 +5,6 @@ int portValue = 0;
 char* Address = "";
 int BlockSize = 0;
 int numBlocks = 0;
-int TCPorUDP = 0;
-
 
 int commandLineParser(int argc, char** argv)
 {
@@ -34,14 +32,9 @@ int commandLineParser(int argc, char** argv)
 		// Validation Function
 		for (i =0; i < CLIENT_ARG; i++)
 		{
-			if ((strcmp(argv[i],"-TCP") == 0) || (strcmp(argv[i], "-tcp") == 0))
-			{
-				TCPorUDP = TCP;
-				EachValue.Protocol = TCP;
-			}
+
 			if ((strcmp(argv[i],"-UDP") == 0) || (strcmp(argv[i], "-udp") == 0))
 			{
-				TCPorUDP = UDP;
 				EachValue.Protocol = UDP;
 			}
 			if (strcmp(argv[i],"-a") ==0)
@@ -91,11 +84,6 @@ int commandLineParser(int argc, char** argv)
 	return returnValue;
 }
 
-/* METHOD		: isNumberCheck
-   PARAMETER	: char* str - string value of argument.
-   RETURN		: Return 1 - valid, 0 - invalid
-   DESCRIPTION	: This method is used for validating whether string input has character. if it has, it returns 0.
-*/
 int isNumberCheck(char* str)
 {
 	int isDigit = 0;

@@ -1,12 +1,3 @@
-/*
-	=============================================================
-	File:	Common.h
-	Date:	Jan. 21 2018
-	Description: This file will contain all the common includes,
-	constants, struct and function prototypes for the
-	completion of this program.
-	=============================================================
-*/
 
 #ifndef _COMMON_H_
 #define _COMMON_H_
@@ -17,11 +8,6 @@
 #include <string.h>
 #include <time.h>
 #include <errno.h>
-#ifdef _WIN32
-
-#include <winsock2.h>
-#include <windows.h>
-#else
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -30,20 +16,17 @@
 #include <netdb.h>
 #include <errno.h>
 #include <ctype.h>
+#include <iostream>
 #define SOCKET_ERROR -1
 #define INVALID_SOCKET -1
-
 #define ERROR 0
 #endif // _WIN32
-
 #define FIRST_CONNECTION_FAIL -10
 #define SIZEBUF 22000
-
 #define WINDOW_SERVER 1
 #define WINDOW_CLIENT 2
 #define LINUX_SERVER 3
 #define LINUX_CLIENT 4
-
 #define FAIL_WINDOW -1
 #define FAIL_LINUX -2
 

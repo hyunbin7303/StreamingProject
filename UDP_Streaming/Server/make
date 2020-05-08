@@ -1,0 +1,4 @@
+all:
+    g++ main.cpp server.cpp, serverManagement.cpp -o hello
+
+compile:
