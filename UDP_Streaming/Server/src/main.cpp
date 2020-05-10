@@ -1,10 +1,7 @@
 
 
 
-// #include "../inc/Common.h"
-// #include "../inc/iSpeedClient.h"
-// #include "../inc/iSpeedServer.h"
-#include "../inc/server.hpp"
+#include "../inc/server.h"
 
 using namespace std;
 
@@ -13,12 +10,17 @@ int main(int argc, char** argv)
 	int serviceNum = 0;
 	int argValue = 0;
     
+     argValue = Util::commandLineParser(argc, argv);
+	//TODO: checking argument settings.
+	UDP_Server::Server server{};
 	
-	// Calling Linux based method.
-     argValue = commandLineParser(argc, argv);
+	int check = server.ServerStart(argc, argv);
+	if(check == SERVICE_DONE)
+	{
+
+	}
 	// if (argValue == SERVER_ARG)
 	// {
-	// 	printf("LINUX SERVER RUN. \n");
 	// 	while (1)
 	// 	{
 	// 		serviceNum = ServerStart(argc,argv);
@@ -36,16 +38,5 @@ int main(int argc, char** argv)
 	// 		}
 	// 	}
 	// }
-	// else if (argValue == CLIENT_ARG)
-	// {
-	// 	printf("LINUX CLIENT RUN. \n");
-	// 	ClientStart(argc, argv);
-	// }
-	// else {
-	// 	printf("[ERROR] Linux based not detectable. \n");
-	// }
-	// printf("SERVER SERVICE IS DONE. EXIT THIS PROGRAM.\n");
-	cout <<"TESTING MAIN FUNCTION" << endl;
-
 	return 0;
 }

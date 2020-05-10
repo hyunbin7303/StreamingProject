@@ -3,19 +3,17 @@
 #include "../inc/server.h"
 int FirstTime = 0;	// Checking whether it is the first time execution.
 using namespace UDP_Server;
-// UDP_Server::Server(const std::string & addr, int port)
-// 	: _port(port), _address(addr)
-// {
-// }
-std::string Server::getAddress() const{
-	return _address;
+using namespace Util;
+
+
+
+
+
+Server::Server(const std::string & addr,int port)
+{
 }
-int Server::getPort() const {
-	return _port;
-}
-int Server::getSocket() const {
-	return _socket;
-}
+
+// not sure this is used in somewhere.
 int Server::getServerIp(char* ip)
 {
 	unsigned int addr;
@@ -48,21 +46,10 @@ int Server::getServerIp(char* ip)
 	return 1;
 }
 
-void generateResult(char* str)
-{
-	FILE * file;
-	file = fopen("Result.txt", "a");
-	if (file == NULL)
-	{
-		printf("Please check whether file exists and you have write privilege.\n");
-		exit(EXIT_FAILURE);
-	}
-	fprintf(file, "%s", str);
-	fclose(file);
-}
 
 int Server::ServerStart(int argc, char** argv)
 {
+
 	FirstTime = 0;// Meaning the first time.
 	int preVal = 0;// Getting previous value.
 	int curVal = 0;// Getting the current value.
@@ -82,14 +69,13 @@ int Server::ServerStart(int argc, char** argv)
 	int CountMissing = 0;
 
 	getServerIp(serverIp);	// get the server side address value.
-	printf("Server's Port      : [%d]\n", EachValue.portNum);
 	printf("Server's IP Address : [%s]\n", serverIp);
 
 
-	if ((listen_socket = socket(AF_INET, socket_type, 0)) <0) {
-		printf("ERROR, failed getting server socket\n");
-		return 2;
-	}	/* endif */
+	// if ((listen_socket = socket(AF_INET, socket_type, 0)) <0) {
+	// 	printf("ERROR, failed getting server socket\n");
+	// 	return 2;
+	// }	
 	int a = 1;
 	setsockopt(listen_socket, SOL_SOCKET, SO_REUSEADDR,
 		   (const void *)&a, sizeof(int));
@@ -98,7 +84,7 @@ int Server::ServerStart(int argc, char** argv)
 	memset(&local,0,sizeof(local));
 	local.sin_family = AF_INET;
 	local.sin_addr.s_addr = htonl(INADDR_ANY);
-	local.sin_port = htons(EachValue.portNum);	// in network byte order
+	local.sin_port = htons(socket->getPortNumber());	// in network byte order
 
 	printf("WAITING FOR CLIENT NETWORK PROTOCOL INFORMAION.... \n");
 	int bindRt = 0 ;
@@ -120,10 +106,8 @@ int Server::ServerStart(int argc, char** argv)
 
 	char BlockSizeValueStr[20] = "";
 	fromlen = sizeof(from);
-	if (EachValue.Protocol == UDP)
-	{
 
-		char* Buffer = (char *)malloc(EachValue.BlockSize * sizeof(char)+1);
+		// char* Buffer = (char *)malloc(EachValue.BlockSize * sizeof(char)+1);
 		if(Buffer == NULL)
 		{
 			printf("Dyniamic Memory allocation Fail\n");
@@ -143,9 +127,8 @@ int Server::ServerStart(int argc, char** argv)
 		memset(&UDPClient, 0, sizeof(UDPClient));
 		UDPServer.sin_family = AF_INET;
 		UDPServer.sin_addr.s_addr = INADDR_ANY;
-		UDPServer.sin_port = htons(EachValue.portNum);
-
-		UDPsocket = socket(AF_INET, SOCK_DGRAM, 0);
+		UDPServer.sin_port = htons(socket->getPortNumber());
+		// UDPsocket = socket(AF_INET, SOCK_DGRAM, 0);
 		int optval = 1;
 		// make socket reusable
 		setsockopt(UDPsocket, SOL_SOCKET, SO_REUSEADDR,
@@ -170,13 +153,13 @@ int Server::ServerStart(int argc, char** argv)
 		int i = 0;
 		int MissingBlock = 0;
 		double time_taken = 0.0;
-		t = clock();// start time
 		int iTimeout = 5000;
 		// Used for time out.
 		int iRet = setsockopt(UDPsocket,SOL_SOCKET,SO_RCVTIMEO,(const char *)&iTimeout,sizeof(iTimeout));
 		unsigned int TotalBytes = 0;
 		while (i < EachValue.numBlock)
 		{
+			//TODO Change this roof!
 			iReceiveFrom = recvfrom(UDPsocket, Buffer, EachValue.BlockSize+1,0,(struct sockaddr *)&UDPClient, &iUDPClientLen); // Might have to do sizeof(Buffer) - 2
 			if (iReceiveFrom < 0)
 			{
@@ -197,21 +180,16 @@ int Server::ServerStart(int argc, char** argv)
 			}
 			i++;
 		}
-		t = clock() - t;
-		time_taken = ((double)t) / (CLOCKS_PER_SEC / 1000); // in milliseconds
-		// AllMissingBlock = EachValue.numBlock - i;
 		double SpeedCal = ((double)TotalBytes/(1024))  /  1024; // convert to megabytes
 		SpeedCal = SpeedCal/time_taken; // megabytes per second
 		SpeedCal = (SpeedCal*8); // megbits per second
 		printf("Size: <<%d>> Sent: <<%d>> Time: <<%.5f>> Speed: <<%f> Missing: <<%d>> Disordered: <<%d>>\n", EachValue.BlockSize,EachValue.numBlock, time_taken, SpeedCal, AllMissingBlock, CountUnordered);
-		
 		// Freeing memory allocation.
 		if (Buffer == NULL)
 			printf("DYNAMIC ARRAY IS ALREADY NULL.\n");
 		else
 			free(Buffer);
 		close(UDPsocket);
-	}
 
 	return SERVICE_DONE;
 }
