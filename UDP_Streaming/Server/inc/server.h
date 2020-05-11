@@ -16,7 +16,10 @@ namespace UDP_Server
         ~Server(); // Destructor
 
         int LinuxUDPServerStart();
-        int ServerStart(int argc, char** argv);
+        int ServerStart(int argc, char** argv); // previous one.
+
+        int ServerStart(); // Currently developing this one.
+
         int packetReceive(char * info, size_t size);
         int timed_recv(char * msg, size_t, int maxWaitMS); // what is this?
 

@@ -11,6 +11,7 @@ using namespace Util;
 
 Server::Server(const std::string & addr,int port)
 {
+	char decimal_port[16];
 }
 
 // not sure this is used in somewhere.
@@ -107,7 +108,7 @@ int Server::ServerStart(int argc, char** argv)
 	char BlockSizeValueStr[20] = "";
 	fromlen = sizeof(from);
 
-		// char* Buffer = (char *)malloc(EachValue.BlockSize * sizeof(char)+1);
+		//  char* Buffer = (char *)malloc(g * sizeof(char)+1);
 		if(Buffer == NULL)
 		{
 			printf("Dyniamic Memory allocation Fail\n");

@@ -13,11 +13,9 @@ int main(int argc, char** argv)
      argValue = Util::commandLineParser(argc, argv);
 	//TODO: checking argument settings.
 	UDP_Server::Server server{};
-	
 	int check = server.ServerStart(argc, argv);
 	if(check == SERVICE_DONE)
 	{
-
 	}
 	// if (argValue == SERVER_ARG)
 	// {
