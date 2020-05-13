@@ -4,62 +4,39 @@
 
 
 # Final Binary Target
-./bin/ispeed : ./obj/Main.o ./obj/iSpeedClient.o ./obj/iSpeedServer.o ./obj/commandLine.o
-	cc ./obj/Main.o ./obj/iSpeedClient.o ./obj/iSpeedServer.o ./obj/commandLine.o -o ./bin/ispeed
+./bin/myClient : ./obj/myClient.o ../Common/obj/mySocket.o ../Common/obj/myHostInfo.o
+	gcc -o ./bin/myClient ./obj/myClient.o ../Common/obj/mySocket.o ../Common/obj/myHostInfo.o
 
-#
-# Dependecies 
-#
-./obj/Main.o : ./src/Main.c ./src/iSpeedClient.c ./src/iSpeedServer.c ./src/commandLine.c ./inc/Common.h ./inc/iSpeedClient.h ./inc/iSpeedServer.h
-	cc -c ./src/Main.c -o ./obj/Main.o
 
-./obj/iSpeedClient.o : ./src/iSpeedClient.c ./inc/iSpeedClient.h
-	cc -c ./src/iSpeedClient.c -o ./obj/iSpeedClient.o
+# Dependecies in Client folder 
+./obj/myClient.o : ./src/myClient.cpp ./inc/
+	gcc -g -c ./src/myClient.cpp -o ./obj/myClient.o
 
-./obj/iSpeedServer.o : ./src/iSpeedServer.c ./inc/iSpeedServer.h
-	cc -c ./src/iSpeedServer.c -o ./obj/iSpeedServer.o
 
-./obj/commandLine.o : ./src/commandLine.c ./inc/Common.h
-	cc -c ./src/commandLine.c -o ./obj/commandLine.o
+# Dependecies in Common folder
+../Common/obj/mySocket.o : ../Common/src/mySocket.cpp ../Common/inc/mySocket.h
+	gcc -g -c ../Common/src/mySocket.cpp -o ../Common/obj/mySocket.o 
+../Common/obj/myHostInfo.o : ../Common/src/myHostInfo.cpp ../Common/inc/myHostInfo.h
+	gcc -g -c ../Common/src/myHostInfo.cpp -o ../Common/obj/myHostInfo.o
 
+
+	
 #
 # Other Targets
 #
-all: ./bin/ispeed
+all: ./bin/myClient
 clean:
 	rm -f ./bin/*
 	rm -f ./obj/*.o
 	rm -f ./src/*.c~
 	rm -f ./inc/*.h~
+	rm -f ../Common/bin/*
+	rm -f ../Common/obj/*.o
+	rm -f ../Common/src/*.c~
+	rm -f ../Common/inc/*.h~
 
 
 ##################3
 #declare the variable.
 CC=g++
-
-
 CFLAGS=-c -Wall
-
-
-all:UDPserver
-
-UDPserver: main.o server.o server2.o
-		$(CC) main.o server.o server2.o -o UDPserver
-
-
-main.o: main.cpp
-	$(CC) $(CFLAGS) main.cpp
-
-
-server.o: server.cpp
-	$(CC) $(CFLAGS) server.cpp
-
-
-
-server2.o: server2.cpp
-	$(CC) $(CFLAGS) server2.cpp
-
-
-
-clean:
-	rm -rf *o UDPserver
