@@ -106,3 +106,16 @@ int isNumberCheck(char* str)
 	return isDigit;
 }
 
+void generateResult(char* str)
+{
+	FILE * file;
+	file = fopen("Result.txt", "a");
+	if (file == NULL)
+	{
+		printf("Please check whether file exists and you have write privilege.\n");
+		exit(EXIT_FAILURE);
+	}
+	fprintf(file, "%s", str);
+	fclose(file);
+}
+

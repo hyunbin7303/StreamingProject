@@ -38,19 +38,16 @@
 #define SERVICE_RESTART 	200
 #define SERVICE_ERROR 		-100
 
-typedef struct
-{
-	int Protocol;
-	char* IpAddr;
-	int portNum;
-	int numBlock;
-	int BlockSize;
-}CommandLineValues;
 
-CommandLineValues EachValue;
-char* ipAdd;
-int commandLineParser(int argc, char** argv);
-int isNumberCheck(char* str);
+namespace Util {
+	char* ipAdd;
+	int commandLineParser(int argc, char** argv);
+	int isNumberCheck(char* str);
+	void generateResult(char* str);
+}
+
+
+
 
 
 #endif

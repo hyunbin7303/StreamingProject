@@ -8,29 +8,33 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
 
 class mySocket
 {
 public:
     mySocket(){}
     mySocket(int); 
+    mySocket(const std::string & address, int port);
     virtual ~mySocket()
     {
         close(socketId);
     }
-    int getSocketId() { return socketId; }
-	int getPortNumber() { return portNumber; }
+    int getSocketId() const { return socketId; }
+	int getPortNumber() const { return portNumber; }
+    std::string getAddr() const {return address; }
     void setSendBufSize(int);
     void setReceiveBufSize(int);
-
+    
 protected:
     int portNumber;
     int socketId;
-    struct sockaddr_in clientAddr;
+    struct sockaddr_in clientAddr; // can we delete this one?
+    std::string  address;
+    struct addrinfo * _addrinfo;
+
 };
 
-
+// TODO : requires to delete or move to other directory.
 class myTcpSocket : public mySocket
 {
 public:
