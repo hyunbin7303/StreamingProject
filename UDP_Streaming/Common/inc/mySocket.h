@@ -25,7 +25,7 @@ public:
     std::string getAddr() const {return address; }
     void setSendBufSize(int);
     void setReceiveBufSize(int);
-    
+    int bindSocket() const;
 
     void setReadBufSize(unsigned int size) throw(MySocketException);
 
@@ -35,12 +35,10 @@ public:
 
     mySocket(const &mySocket); // Need investigation
     // Prevent the user from trying to use exact copy of this obj.
-
+    int socketId;
 
 protected:
     int portNumber;
-    int socketId;
-    struct sockaddr_in clientAddr; // can we delete this one?
     std::string  address;
     struct addrinfo * _addrinfo;
 
@@ -56,7 +54,7 @@ public:
         IPv4Protocol = AF_INET,
         IPv6Protocol = AF_INET6,
         Unknwon = -1
-    }
+    };
     enum ReadResult
     {
         ARRIVED = 0,

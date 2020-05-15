@@ -16,8 +16,6 @@ namespace UDP_Server
         ~Server(); // Destructor
 
         int LinuxUDPServerStart();
-        int ServerStart(int argc, char** argv); // previous one.
-
         int ServerStart(); // Currently developing this one.
 
         int packetReceive(char * info, size_t size);
@@ -25,9 +23,10 @@ namespace UDP_Server
 
         int getServerIp(char* ip);
         void generateResult(char * str);
+        bool bindSocketForListening() const;
     private:
 
-        mySocket *socket;
+        mySocket *mySoc;
 
     };
 
@@ -35,6 +34,7 @@ namespace UDP_Server
     {
 
     };
+
 
 };
 
