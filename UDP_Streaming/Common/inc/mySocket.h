@@ -2,7 +2,7 @@
 #define _mySocket
 
 #include "./myHostInfo.h"
-#include "mySocketException.h"
+#include "./mySocketException.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
@@ -15,7 +15,7 @@ class mySocket
 public:
     mySocket(){}
     mySocket(int); 
-    mySocket(const std::string & address, int port);
+    mySocket(const std::string& address, int port);
     virtual ~mySocket()
     {
         close(socketId);
