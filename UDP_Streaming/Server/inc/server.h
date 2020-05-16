@@ -11,7 +11,7 @@ namespace UDP_Server
     class Server
     {
     public:
-        Server(){};
+        Server() {std::cout <<"Server Constructor. " << std::endl;};
         Server(const std::string & addr, int port);
         ~Server(){}; // Destructor
 
