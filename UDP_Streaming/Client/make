@@ -5,19 +5,19 @@
 
 # Final Binary Target
 ./bin/myClient : ./obj/myClient.o ../Common/obj/mySocket.o ../Common/obj/myHostInfo.o
-	gcc -o ./bin/myClient ./obj/myClient.o ../Common/obj/mySocket.o ../Common/obj/myHostInfo.o
+	g++ -o ./bin/myClient ./obj/myClient.o ../Common/obj/mySocket.o ../Common/obj/myHostInfo.o
 
 
 # Dependecies in Client folder 
-./obj/myClient.o : ./src/myClient.cpp ./inc/
-	gcc -g -c ./src/myClient.cpp -o ./obj/myClient.o
+./obj/myClient.o : ./src/myClient.cpp ./inc/myClient.h
+	g++ -g -c ./src/myClient.cpp -o ./obj/myClient.o
 
 
 # Dependecies in Common folder
 ../Common/obj/mySocket.o : ../Common/src/mySocket.cpp ../Common/inc/mySocket.h
-	gcc -g -c ../Common/src/mySocket.cpp -o ../Common/obj/mySocket.o 
+	g++ -g -c ../Common/src/mySocket.cpp -o ../Common/obj/mySocket.o 
 ../Common/obj/myHostInfo.o : ../Common/src/myHostInfo.cpp ../Common/inc/myHostInfo.h
-	gcc -g -c ../Common/src/myHostInfo.cpp -o ../Common/obj/myHostInfo.o
+	g++ -g -c ../Common/src/myHostInfo.cpp -o ../Common/obj/myHostInfo.o
 
 
 	
