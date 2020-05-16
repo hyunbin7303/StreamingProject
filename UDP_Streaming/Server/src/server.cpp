@@ -87,7 +87,7 @@ int Server::ServerStart(){
 	while (i < 5)
 	{
 			//TODO Change this roof!
-		iReceiveFrom = recvfrom(mySoc->socketId, buffer, EachValue.BlockSize+1,0,(struct sockaddr *)&UDPClient, &iUDPClientLen); // Might have to do sizeof(Buffer) - 2
+		// iReceiveFrom = recvfrom(mySoc->socketId, buffer, EachValue.BlockSize+1,0,(struct sockaddr *)&UDPClient, &iUDPClientLen); // Might have to do sizeof(Buffer) - 2
 		if (iReceiveFrom < 0)
 		{
 			printf("ERROR CODE : [%d]", iReceiveFrom);
