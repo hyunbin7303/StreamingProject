@@ -13,7 +13,7 @@ namespace UDP_Server
     public:
         Server(){};
         Server(const std::string & addr, int port);
-        ~Server(); // Destructor
+        ~Server(){}; // Destructor
 
         int LinuxUDPServerStart();
         int ServerStart(); // Currently developing this one.
@@ -25,7 +25,6 @@ namespace UDP_Server
         void generateResult(char * str);
         bool bindSocketForListening() const;
     private:
-
         mySocket *mySoc;
 
     };

@@ -27,13 +27,13 @@ public:
     void setReceiveBufSize(int);
     int bindSocket() const;
 
-    void setReadBufSize(unsigned int size) throw(MySocketException);
+    void setReadBufSize(unsigned int size) ;//throw(MySocketException)
 
     
     mySocket& operator <<(const string & s);// writing string to socket
     mySocket& operator >>(const string & s);// Read data to string from socke.t
 
-    mySocket(const &mySocket); // Need investigation
+    //mySocket(const &mySocket); // Need investigation
     // Prevent the user from trying to use exact copy of this obj.
     int socketId;
 
@@ -65,19 +65,4 @@ public:
 
 };
 
-// TODO : requires to delete or move to other directory.
-class myTcpSocket : public mySocket
-{
-public:
-	myTcpSocket() {};
-	~myTcpSocket() {};
-	myTcpSocket(int portId) : mySocket(portId) { };
-	int sendMessage(string&);
-	int recieveMessage(string&);
-	void bindSocket();
-	myTcpSocket* acceptClient(string&);
-	void listenToClient(int numPorts = 5);
-	virtual void connectToServer(string&,hostType);
-
-};
 #endif

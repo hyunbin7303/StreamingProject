@@ -1,11 +1,13 @@
 
 
 
+#include "../../Common/inc/common.h"
 #include "../inc/server.h"
+
 int main(int argc, char** argv)
 {
-	int argValue = 0;
-	argValue = Util::commandLineParser(argc, argv);
+	//int argValue = 0;
+	//argValue = Util::commandLineParser(argc, argv);
 	//TODO: checking argument settings.
 	UDP_Server::Server server{};
 	int check = server.ServerStart();

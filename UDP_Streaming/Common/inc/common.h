@@ -40,7 +40,6 @@
 
 
 namespace Util {
-	char* ipAdd;
 	int commandLineParser(int argc, char** argv);
 	int isNumberCheck(char* str);
 	void generateResult(char* str);
