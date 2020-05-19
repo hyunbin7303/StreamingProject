@@ -6,7 +6,7 @@ mySocket::mySocket(const std::string& address, int port)
 {
 
 
-};
+}
 
 
     
