@@ -4,20 +4,25 @@
 int FirstTime = 0;	// Checking whether it is the first time execution.
 using namespace UDP_Server;
 
+Server::~Server()
+{
+	std::cout << "Server Desctructor for free memory." << std::endl;
+	if(mySoc != NULL)
+	{
+		free(mySoc);
+		std::cout <<"Free my Soc." <<std::endl;
+	}
 
+}
 
 Server::Server(const std::string & addr,int port)
 {
-	char decimal_port[16];
-//	snprintf(decimal_port, sizeof(dec))
 }
 
-// not sure this is used in somewhere.
 int Server::getServerIp(char* ip)
 {
 	unsigned int addr;
 	struct hostent *hp;
-	char* localIp = "127.0.0.1";
 	char buffer[512];
 
 	gethostname(buffer, 512);
@@ -52,16 +57,12 @@ bool Server::bindSocketForListening() const {
 		std::cerr <<"[SERVER] Binding failed. Possible Reason : Socket wasn't initialized. " << std::endl;
 		return false;
 	}
-	std::cout<<"mySocket Id value : " << mySoc->socketId << std::endl;
 	sockaddr_in soc_addr;
 	memset(reinterpret_cast<char*>(&soc_addr), 0, sizeof(soc_addr));
 
-	std::cout <<"CHECKING" << std::endl;
 	soc_addr.sin_family = AF_INET;
 	soc_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-	std::cout <<"CHECKING Port number : " << mySoc->getPortNumber() << std::endl;
 	soc_addr.sin_port = htons(mySoc->getPortNumber());
-	
 	int bindCheck = bind(mySoc->socketId, reinterpret_cast<sockaddr*>(&soc_addr), sizeof(soc_addr));
 	if(bindCheck < 0)
 	{
@@ -74,24 +75,18 @@ bool Server::bindSocketForListening() const {
 
 int Server::ServerStart(){
 
-	 mySoc->socketId = socket(AF_INET, SOCK_DGRAM, 0);
-	std::cout <<"Setting up socket Id " << std::endl;
-
+	mySoc = new mySocket();
+	mySoc->socketId = socket(AF_INET, SOCK_DGRAM, 0);
 	if(mySoc->socketId <0)
 	{
 		std::cout <<"Socket Id value : " << mySoc->socketId << std::endl;
 		return 0;
 	}
-	// setsockopt(mySoc->socketId , SOL_SOCKET, SO_REUSEADDR,
-	// 	   (const void *)&a, sizeof(int));
-	// binding.
-	std::cout <<"Binding START . " << std::endl;
-
-
 	bindSocketForListening();
 	int iReceiveFrom= 0;
 	int iTimeout = 5000;
-	int iRet = setsockopt(mySoc->socketId,SOL_SOCKET,SO_RCVTIMEO,(const char *)&iTimeout,sizeof(iTimeout));
+	//  setsockopt(mySoc->socketId , SOL_SOCKET, SO_REUSEADDR, (const void *)&a, sizeof(int));
+	// int iRet = setsockopt(mySoc->socketId,SOL_SOCKET,SO_RCVTIMEO,(const char *)&iTimeout,sizeof(iTimeout));
 	char buffer[1024];
 	int i = 0;		
 	while (i < 5)

@@ -118,8 +118,3 @@ void generateResult(char* str)
 	fprintf(file, "%s", str);
 	fclose(file);
 }
-
-void functionTesting()
-{
-				printf("The number of Blocks: zzzz \n");
-}

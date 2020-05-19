@@ -13,7 +13,7 @@ namespace UDP_Server
     public:
         Server() {std::cout <<"Server Constructor. " << std::endl;};
         Server(const std::string & addr, int port);
-        ~Server(){}; // Destructor
+        ~Server(); // Destructor
 
         int LinuxUDPServerStart();
         int ServerStart(); // Currently developing this one.

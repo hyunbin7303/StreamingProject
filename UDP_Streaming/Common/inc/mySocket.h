@@ -13,7 +13,7 @@
 class mySocket
 {
 public:
-    mySocket(){}
+    mySocket() : portNumber(5000), address("127.0.0.1"){ std::cout << "Socket Object created." << std::endl;}
     mySocket(int); 
     mySocket(const std::string& address, int port);
     virtual ~mySocket()
@@ -40,7 +40,7 @@ public:
 protected:
     int portNumber;
     std::string  address;
-    struct addrinfo * _addrinfo;
+    // struct addrinfo * _addrinfo;
 
 public:
     enum TypeSocket
