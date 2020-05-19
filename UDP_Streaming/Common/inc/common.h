@@ -39,12 +39,12 @@
 #define SERVICE_ERROR 		-100
 
 
-namespace Util {
+// namespace Util {
 	int commandLineParser(int argc, char** argv);
 	int isNumberCheck(char* str);
 	void generateResult(char* str);
-}
-
+// }
+void functionTesting();
 
 
 

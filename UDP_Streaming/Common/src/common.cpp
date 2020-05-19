@@ -1,5 +1,5 @@
 
-#include "../inc/Common.h"
+#include "../inc/common.h"
 
 
 
@@ -20,7 +20,7 @@ int commandLineParser(int argc, char** argv)
 				printf("PORT VALUE ERROR \n");
 				return INVALID_CMD_ARG;
 			}
-			EachValue.portNum = atoi(ServerPortStr);
+			// EachValue.portNum = atoi(ServerPortStr);
 			returnValue = SERVER_ARG;
 		}
 		else
@@ -37,14 +37,14 @@ int commandLineParser(int argc, char** argv)
 
 			if ((strcmp(argv[i],"-UDP") == 0) || (strcmp(argv[i], "-udp") == 0))
 			{
-				EachValue.Protocol = UDP;
+				// EachValue.Protocol = UDP;
 			}
 			if (strcmp(argv[i],"-a") ==0)
 			{
 				Address = argv[i + 1];
 				printf("Address Value %s \n", Address);
-				ipAdd = Address; // assign to global var
-				EachValue.IpAddr = Address;
+				// ipAdd = Address; // assign to global var
+				// EachValue.IpAddr = Address;
 			}
 			if (strcmp(argv[i],"-p") == 0)
 			{
@@ -54,21 +54,21 @@ int commandLineParser(int argc, char** argv)
 					return INVALID_CMD_ARG;
 				}
 				portValue = atoi(portStr);
-				EachValue.portNum = portValue;
+				// EachValue.portNum = portValue;
 				printf("Port Value : %d \n", portValue);
 			}
 			if (strcmp(argv[i],"-s") == 0)
 			{
 				char* BlockSizeStr = argv[i + 1];
 				BlockSize = atoi(BlockSizeStr);
-				EachValue.BlockSize = BlockSize;
+				// EachValue.BlockSize = BlockSize;
 				printf("Block Size Value : %u \n", BlockSize);
 			}
 			if (strcmp(argv[i],"-n") == 0)
 			{
 				char* numBlocksStr = argv[i + 1];
 				numBlocks = atoi(numBlocksStr);
-				EachValue.numBlock = numBlocks;
+				// EachValue.numBlock = numBlocks;
 				printf("The number of Blocks: %u \n", numBlocks);
 			}
 		}
@@ -119,3 +119,7 @@ void generateResult(char* str)
 	fclose(file);
 }
 
+void functionTesting()
+{
+				printf("The number of Blocks: zzzz \n");
+}

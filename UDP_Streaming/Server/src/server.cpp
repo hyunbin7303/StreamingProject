@@ -3,7 +3,6 @@
 #include "../inc/server.h"
 int FirstTime = 0;	// Checking whether it is the first time execution.
 using namespace UDP_Server;
-using namespace Util;
 
 
 
@@ -78,7 +77,7 @@ int Server::ServerStart(){
 	 mySoc->socketId = socket(AF_INET, SOCK_DGRAM, 0);
 	std::cout <<"Setting up socket Id " << std::endl;
 
-	if(mySoc->socketId == 0)
+	if(mySoc->socketId <0)
 	{
 		std::cout <<"Socket Id value : " << mySoc->socketId << std::endl;
 		return 0;
