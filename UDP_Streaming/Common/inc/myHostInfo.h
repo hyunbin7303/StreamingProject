@@ -19,7 +19,7 @@ private:
 	struct hostent *hostPtr;    // Entry within the host address database
 
 public:
-    myHostInfo();
+    myHostInfo(){openHostDb()};
     myHostInfo(string& hostName, hostType type);
     ~myHostInfo()
     {
